@@ -29,7 +29,7 @@ class EpisodeRemoteRepository @Inject constructor(
     suspend fun fetchAjaxUrl(url: String): String {
         return withContext(dispatcher) {
             val response = service.fetchAjaxUrlForM3U8(Utils.getHeader(), url)
-            HtmlParser.parseEncryptAjaxParameters(response = response.string())
+            HtmlParser.parseEncryptAjaxParameters(response = response.string(),url)
 
         }
     }
