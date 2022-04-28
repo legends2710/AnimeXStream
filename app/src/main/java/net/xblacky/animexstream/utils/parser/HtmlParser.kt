@@ -220,19 +220,25 @@ class HtmlParser {
             )
         }
 
-        fun parseEncryptAjaxParameters(response: String): String {
-            val document = Jsoup.parse(response)
-            val value2 = document.select("script[data-name='crypto']").attr("data-value")
-            val decryptkey =
-                decryptAES(value2, C.GogoSecretkey, C.GogoSecretIV).replaceAfter("&", "")
-                    .removeSuffix("&")
-            val encrypted = encryptAes(decryptkey, C.GogoSecretkey, C.GogoSecretIV)
-            return "id=$encrypted"
+        fun parseEncryptAjaxParameters(response: String,url: String): String {
+            return try {
+                val id =
+                    Regex("id=([^&]+)").find(url)!!.value.removePrefix(
+                        "id="
+                    )
+                val document=Jsoup.parse(response)
+                val value2 = document.select("script[data-name=\"episode\"]").attr("data-value")
+                val decrypt = decryptAES(value2, C.GogoSecretkey, C.GogoSecretIV).replace("\t","").substringAfter(id)
+                val encrypted = encryptAes(id, C.GogoSecretkey, C.GogoSecretIV)
+                "id=$encrypted$decrypt&alias=$id"
+            }catch (e:Exception){
+                e.toString()
+            }
         }
 
         fun parseEncryptedData(response: String): M3U8FromAjaxModel {
             val data = JSONObject(response).getString("data")
-            val decryptedData = decryptAES(data, C.GogoSecretkey, C.GogoSecretIV).replace(
+            val decryptedData = decryptAES(data, C.GogoSecondKey, C.GogoSecretIV).replace(
                 """o"<P{#meme":""",
                 """e":[{"file":"""
             )
