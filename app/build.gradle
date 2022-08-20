@@ -24,14 +24,6 @@ android {
         }
     }
 
-    signingConfigs {
-        release {
-            storeFile file('F:\\Projects\\animexstream.jks')
-            storePassword 'labrador1'
-            keyAlias = 'xblacky'
-            keyPassword 'labrador1'
-        }
-    }
     compileSdkVersion 32
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -45,20 +37,16 @@ android {
         applicationId "net.xblacky.animexstream"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 16
-        versionName "0.4.3"
+        versionCode 17
+        versionName "0.5.0"
         vectorDrawables.useSupportLibrary = true
         archivesBaseName = "AnimexStream-v$versionName"
         testInstrumentationRunner "net.xblacky.animexstream.AXSTestRunner"
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            signingConfig signingConfigs.release
         }
     }
     splits {

@@ -29,7 +29,6 @@ class EpisodeRepository @Inject constructor(
         } else {
             episodeInfo = remoteRepo.fetchEpisodeData(url)
             episodeInfo.episodeUrl = url
-            localRepo.saveEpisodeInfo(episodeInfo)
             episodeInfo
         }
     }
